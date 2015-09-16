@@ -4,7 +4,8 @@ $view = "";
 // DB接続
 $pdo = new PDO("mysql:host=localhost;dbname=cs_academy;charset=utf8", "root", "");
 // create_date の降順に5件取得
-$sql = "SELECT * FROM news ORDER BY create_date DESC LIMIT 5";
+// 日付の表示をMySQLの関数、DATE_FORMATで整形
+$sql = "SELECT news_title, DATE_FORMAT(create_date , '%Y.%m.%d') AS create_date FROM news ORDER BY create_date DESC LIMIT 5";
 $stmt = $pdo->prepare($sql);
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -12,8 +13,10 @@ $pdo = null;
 
 foreach($results as $row){
 	// var_dump($row);
+	$title = $row["news_title"];
+	$title = mb_substr($title, 0, 10);
 	$view .= '<dt class="news-date">' . $row["create_date"] .'</dt>';
-	$view .= '<dd class="news-description">' . $row["news_title"] . '</dd>';
+	$view .= '<dd class="news-description">' . $title . '</dd>';
 }
 
 ?>
@@ -33,8 +36,6 @@ foreach($results as $row){
         <article class="news-detail">
             <dl class="clearfix">
             	<?php echo $view ?>
-                <dt class="news-date">2015.07.12</dt>
-                <dd class="news-description">初日開講しました！</dd>
             </dl>
             <p class="view-detail text-right"><a href="news_list.php">ニュース一覧を見る</a></p>
         </article>
