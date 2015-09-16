@@ -1,3 +1,23 @@
+<?php
+// newsに表示用の変数を定義
+$view = "";
+// DB接続
+$pdo = new PDO("mysql:host=localhost;dbname=cs_academy;charset=utf8", "root", "");
+// create_date の降順に5件取得
+$sql = "SELECT * FROM news ORDER BY create_date DESC LIMIT 5";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$pdo = null;
+
+foreach($results as $row){
+	// var_dump($row);
+	$view .= '<dt class="news-date">' . $row["create_date"] .'</dt>';
+	$view .= '<dd class="news-description">' . $row["news_title"] . '</dd>';
+}
+
+?>
+
 <?php include("header.php") ?>
     
     <section class="main_visual">
@@ -12,14 +32,11 @@
         </h2>
         <article class="news-detail">
             <dl class="clearfix">
+            	<?php echo $view ?>
                 <dt class="news-date">2015.07.12</dt>
                 <dd class="news-description">初日開講しました！</dd>
-                <dt class="news-date">2015.06.12</dt>
-                <dd class="news-description">初めてのチーズハッカソンを開催しました！</dd>
-                <dt class="news-date">2015.04.11</dt>
-                <dd class="news-description">トーキョーチーズFesを開催いたしました！</dd>
             </dl>
-            <p class="view-detail text-right"><a href="#">ニュース一覧を見る</a></p>
+            <p class="view-detail text-right"><a href="news_list.php">ニュース一覧を見る</a></p>
         </article>
     </section>
    
