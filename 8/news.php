@@ -1,3 +1,8 @@
+<?php
+// index.php or category.php のリンクからニュースIDをGETで取得
+// 取得したニュースIDで、ニューステーブルから該当ニュースIDのニュース詳細を取得するSQLを発行
+// カウントテーブルのニュースカウントを1増やし、UPDATEする
+?>
 <html>
 <head>
 <meta charset="utf-8">
