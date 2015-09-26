@@ -28,7 +28,7 @@ for ($count = 0; $count < $category_num; $count++){
 	}
 }
 // var_dump($category_array);
-$sql  .= " ORDER BY create_date DESC ";
+$sql  .= " ORDER BY create_date DESC LIMIT 30 ";
 // var_dump($sql);
 $stmt = $pdo->prepare($sql);
 $stmt->execute($category_array);
@@ -42,6 +42,7 @@ foreach($category_lists as $category_row){
 	$category_name = $category_row["category_name"];
 	$category_news_block .= '<h2><a href="category.php">' . $category_name . '</a></h2>';
 	$category_news_block .= "<ul>";
+	$news_cnt = 0;
 	foreach($news_lists as $news){
 		// カテゴリーが一致しない場合はスルー（コンテニュー）
 		if($category_id != $news["category_id"]) {
@@ -50,6 +51,10 @@ foreach($category_lists as $category_row){
 // 各ニュースのタイトルを表示する
 		$news_title = $news["news_title"];
 		$category_news_block .= '<li><a href="news.php">' . $news_title . '</li>';
+		$news_cnt++;
+		if($news_cnt == 3) {
+			break;
+		}
 	}
 	$category_news_block .= "</ul>";
 }
