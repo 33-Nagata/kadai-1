@@ -1,4 +1,5 @@
 <?php
+$time_start = microtime(true);
 // 変数を定義
 // データベースから取得したカテゴリーと名前を格納する変数
 $category_lists = array();
@@ -38,6 +39,8 @@ foreach($category_lists as $category_row){
 	$category_news_block .= "</ul>";
 }
 $pdo = null;
+$timelimit = microtime(true) - $time_start;
+echo $timelimit . "秒";
 ?>
 <html>
 <head>
